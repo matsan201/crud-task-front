@@ -1,6 +1,6 @@
 import './App.css'
 import MuiNavbar from './components/MuiNavbar'
-import MuiTable from './components/MuiTable'
+import MuiTable from './components/MuiDate'
 function App() {
   
 

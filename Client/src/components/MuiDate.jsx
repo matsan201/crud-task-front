@@ -5,25 +5,40 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import SendIcon from '@mui/icons-material/Send';
 import useTaskStore  from '../store/TaskStore';
-import MuiToast from './MuiToast';
+import MuiToast from './toast/MuiToast';
 import MuiTable2 from './MuiTable2';
 
 
 
 const MuiTable = () => {
   // eslint-disable-next-line no-undef
+  const taskId = useTaskStore((state) => state.id);
   const title = useTaskStore((state) => state.title);
   const description = useTaskStore((state) => state.description);
   const setTitle = useTaskStore((state) => state.setTitle);
   const setDescription = useTaskStore((state) => state.setDescription);
   const { createTask } = useTaskStore();
   const { fetchTasks } = useTaskStore();
+  const { updateTask } = useTaskStore();
   
 
   const [toast, setToast] = useState(false)
 
   const addTask = async (event) => {
-    event.preventDefault();
+    if (taskId) {
+      try {
+        await updateTask(taskId, { title, description });
+        console.log('Tarea actualizada');
+        setToast(true);
+        await fetchTasks();
+        // Limpiar los campos después de la actualización
+        setTitle('');
+        setDescription('');
+      } catch (error) {
+        console.error('Error al actualizar la tarea:', error);
+      }
+    } else {
+      event.preventDefault();
 
     try {
       await createTask({ title, description });
@@ -39,6 +54,7 @@ const MuiTable = () => {
       set({ title: '', description: '' });
     } catch (error) {
       console.error('Error al crear la tarea:', error);
+    }
     }
   }
 
