@@ -74,8 +74,8 @@ const MuiTable = () => {
                     <TableRow>
                         <TableCell>Title</TableCell>
                         <TableCell>Description</TableCell>
-                        <TableCell>Update</TableCell>
                         <TableCell>Delete</TableCell>
+                        <TableCell>Update</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -91,7 +91,7 @@ const MuiTable = () => {
                                     startIcon={<DeleteIcon />}
                                     onClick={() => handleDeleteTask(task._id)}
                                     >
-                                    Delete        
+                                    Delete       
                                     </Button>
                                 </TableCell>
                                 <TableCell>
