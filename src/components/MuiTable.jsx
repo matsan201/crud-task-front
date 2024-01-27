@@ -5,7 +5,11 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import MuiToastError from './toast/MuiToastError';
 
-const MuiTable2 = () => {
+const MuiTable = () => {
+    const title = useTaskStore((state) => state.title);
+    const description = useTaskStore((state) => state.description);
+    const setTitle = useTaskStore((state) => state.setTitle);
+    const setDescription = useTaskStore((state) => state.setDescription);
     const { fetchTasks } = useTaskStore();
     const { updateTask } = useTaskStore();
     const { deleteTask } = useTaskStore();
@@ -20,6 +24,7 @@ const MuiTable2 = () => {
         try {
             await fetchTasks();
             console.log( useTaskStore.getState().tasks);
+
         } catch (error) {
             console.error('Error loading tasks:', error);
         }
@@ -27,10 +32,14 @@ const MuiTable2 = () => {
 
     const handleUpdateTask = async (taskId) => {
         try {
-            await updateTask(taskId)
+            await updateTask(taskId, { title, description });
+            console.log('Tarea actualizada');
 
             setToast(true)
             await fetchTasks();
+
+            setTitle('');
+            setDescription('');
         } catch (error) {
             console.error('Error al eliminar la tarea:', error);
         }
@@ -50,7 +59,6 @@ const MuiTable2 = () => {
           console.error('Error al eliminar la tarea:', error);
         }
     };
-
 
     const handleCloseMuiToast = (event, reason) => {
         if (reason === 'clickaway') {
@@ -107,4 +115,4 @@ const MuiTable2 = () => {
     );
 };
 
-export default MuiTable2;
+export default MuiTable;
