@@ -3,7 +3,7 @@ import useTaskStore from "../store/TaskStore";
 import { useEffect, useState  } from "react";
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import MuiToastError from './toast/MuiToastError';
+import MuiToastError from './toast/ToastError';
 
 const MuiTable = () => {
     const title = useTaskStore((state) => state.title);

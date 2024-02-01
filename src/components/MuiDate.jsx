@@ -1,12 +1,10 @@
 // import React from 'react';
 import { useState } from 'react';
-import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
+import { TextField, Button, Stack} from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 import useTaskStore  from '../store/TaskStore';
-import MuiToast from './toast/MuiToast';
-import MuiTable2 from './MuiTable';
+import Toast from './toast/Toast';
+import MuiTable from './MuiTable';
 
 
 
@@ -25,20 +23,7 @@ const MuiDate = () => {
   const [toast, setToast] = useState(false)
 
   const addTask = async (event) => {
-      // try {
-      //   await updateTask(taskId, { title, description });
-      //   console.log('Tarea actualizada');
-      //   setToast(true);
-      //   await fetchTasks();
-      //   // Limpiar los campos después de la actualización
-      //   setTitle('');
-      //   setDescription('');
-      // } catch (error) {
-      //   console.error('Error al actualizar la tarea:', error);
-      // }
-   
       event.preventDefault();
-
     try {
       await createTask({ title, description });
       console.log('Tarea creada');
@@ -65,24 +50,16 @@ const MuiDate = () => {
     }
   }
 
-  const handleCloseMuiToast = (event, reason) => {
+  const handleCloseToast = (event, reason) => {
     if (reason === 'clickaway') {
       return;
     }
     setToast(false);
   }
   return (
-    <>
-    <Box
-      component="form"
-      onSubmit={addTask}
-      sx={{
-        '& .MuiTextField-root': { m: 1, width: '25ch' },
-      }}
-      noValidate
-      autoComplete="off"
-    >
-      <div>
+    <div>
+    <form noValidate onSubmit={addTask}>
+        <Stack spacing={2} width={250}>
         <TextField
           id="outlined-basic"
           name="title"
@@ -91,22 +68,23 @@ const MuiDate = () => {
           onChange={handleChange}
           value={title}
         />
-        <TextField
-          id="outlined-basic"
+         <TextField
+          id="outlined-multiline"
           name="description"
           label="Description"
+          multiline
           variant="outlined"
           onChange={handleChange}
           value={description}
         />
-      <Button type="submit" variant="contained" endIcon={<SendIcon />}>
-        Submit
-      </Button>
-      <MuiTable2  />
-      </div>
-      <MuiToast open={toast} handleClose={handleCloseMuiToast} />
-    </Box>
-    </>
+        <Button type="submit" variant="contained" endIcon={<SendIcon />}>
+          Submit
+        </Button>
+        <Toast open={toast} handleClose={handleCloseToast}/>
+        </Stack>
+      </form>
+      <MuiTable />
+    </div>
   );
 };
 
